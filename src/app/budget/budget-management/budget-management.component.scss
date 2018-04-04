@@ -1,0 +1,32 @@
+.budget-management {
+  &__budget-grid {
+    width: 960px;
+    margin: auto;
+  }
+
+  &__budget-grid + &__create-budget {
+    margin-top: 16px;
+  }
+
+  &__create-budget {
+    width: 960px;
+    margin: auto;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// TODO: think about better way
+::ng-deep {
+  .allocated-cell {
+    align-self: center;
+  }
+
+  .delete-cell {
+    text-align: center;
+    align-self: center;
+    padding: 0;
+  }
+}

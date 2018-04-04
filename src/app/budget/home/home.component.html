@@ -1,0 +1,185 @@
+<article class="home content">
+  <div class="content__left">
+    <section class="budget">
+
+      <section class="overview">
+        <h2 class="overview__title">Budget Allocation</h2>
+
+        <span class="overview__label">Total</span>
+        <span class="overview__value">{{ totalBudget$ | async | currency }}</span>
+        <span class="overview__label overview__label--warning">Unallocated</span>
+        <span class="overview__value">{{ unallocatedBudget$ | async | currency }}</span>
+      </section>
+
+      <section class="monthly">
+        <igx-list>
+          <igx-list-item>
+            <div class="budget-item budget-item--header">
+              <div class="budget-item__left">
+                <div class="budget-item__name">Monthly</div>
+              </div>
+              <div class="budget-item__right">
+                <div class="budget-item__amount">{{ subtotalByMonthly$ | async }}</div>
+              </div>
+            </div>
+          </igx-list-item>
+          <igx-list-item width="360px" *ngFor="let budget of budgetsByMonthly$ | async">
+            <div class="budget-item">
+              <div class="budget-item__left">
+                <div class="budget-item__name">{{ budget.name }}</div>
+                <igx-linear-bar
+                  [animate]="false"
+                  [max]="budget.amount"
+                  [value]="budget.amount - budget.remaining">
+                </igx-linear-bar>
+              </div>
+              <div class="budget-item__right">
+                <div class="budget-item__remaining">{{ budget.remaining }}</div>
+                <div class="budget-item__amount">{{  budget.amount }}</div>
+              </div>
+            </div>
+          </igx-list-item>
+        </igx-list>
+
+        <igx-list class="every-six-month">
+          <igx-list-item>
+            <div class="budget-item budget-item--header budget-item--subtotal">
+              <div class="budget-item__left">
+                <div class="budget-item__name">Every six months</div>
+              </div>
+              <div class="budget-item__right">
+                <div class="budget-item__amount">{{ subtotalEverySixMonths$ | async }}</div>
+              </div>
+            </div>
+          </igx-list-item>
+          <igx-list-item width="360px" *ngFor="let budget of budgetsByEverySixMonths$ | async">
+            <div class="budget-item">
+              <div class="budget-item__left">
+                <div class="budget-item__name">{{ budget.name }}</div>
+                <igx-linear-bar
+                  [animate]="false"
+                  [max]="budget.amount"
+                  [value]="budget.amount - budget.remaining">
+                </igx-linear-bar>
+              </div>
+              <div class="budget-item__right">
+                <div class="budget-item__remaining">{{  budget.remaining }}</div>
+                <div class="budget-item__amount">{{  budget.amount }}</div>
+              </div>
+            </div>
+          </igx-list-item>
+        </igx-list>
+      </section>
+    </section>
+  </div>
+
+  <div class="content__right">
+
+    <section class="performance-summary">
+      <div class="summary" *ngIf="!isCreating; else transactionForm">
+        <div class="summary__column">
+          <span class="summary__current-month">May '18</span>
+          <span class="summary__spent-value">{{ 4090 | currency }}</span>
+        </div>
+
+        <div class="summary__column">
+          <div class="last-month">
+            <span class="label">Last Month</span>
+            <igx-icon name="arrow_downward"></igx-icon>
+            <span class="value">{{ 71100 | currency }} ({{ 1.467 | percent }})</span>
+          </div>
+
+          <div class="last-year">
+            <span class="label">Last Year</span>
+            <span class="icon"><igx-icon name="arrow_upward"></igx-icon></span>
+            <span class="value">{{ 3920 | currency }} ({{ 0.04 | percent }})</span>
+          </div>
+        </div>
+
+        <div class="summary__column">
+          <button class="summary__add-button"
+            igxButton="raised"
+            igxRipple
+            (click)="isCreating = true">
+            ADD NEW TRANSACTION
+          </button>
+        </div>
+      </div>
+
+      <ng-template #transactionForm>
+        <form class="form" [formGroup]="form">
+          <div class="form__row">
+            <div class="igx-form-group">
+              <igx-datePicker
+                formControlName="date">
+              </igx-datePicker>
+              <!-- TODO: Remove label for now -->
+              <!-- <label>Date</label> -->
+            </div>
+            <div class="igx-form-group">
+              <input
+                type="text"
+                formControlName="payee"
+                igxInput>
+              <label igxLabel>Payee</label>
+            </div>
+            <div class="igx-form-group">
+              <input
+                type="number"
+                formControlName="amount"
+                igxInput>
+              <label igxLabel>Amount</label>
+            </div>
+            <div class="igx-form-group">
+              <input
+                type="string"
+                igxInput>
+              <label igxLabel>Currency</label>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="igx-form-group">
+              <input
+                type="string"
+                formControlName="fromBudget"
+                igxInput>
+              <label igxLabel>From Budget</label>
+            </div>
+
+            <button
+              igxButton="raised"
+              igxRipple
+              (click)="createTransaction()">
+              CREATE
+            </button>
+          </div>
+        </form>
+      </ng-template>
+    </section>
+
+    <section class="transactions">
+      <ng-container *ngIf="(transactions$ | async) as transactions">
+        <igx-grid [data]="transactions" width="100%">
+          <igx-column width="164px" field="date" header="Date" dataType="date"></igx-column>
+          <igx-column width="72px" field="type" header="Type" dataType="string"></igx-column>
+          <igx-column width="468px" field="payee" header="Payee" dataType="string"></igx-column>
+          <igx-column width="156px" field="amount" header="Amount" dataType="number"></igx-column>
+          <igx-column width="140px" field="verified" header="Status" dataType="boolean" cellClasses="status-cell">
+            <ng-template igxCell let-value="value" let-verified let-cell="cell">
+              <span *ngIf="verified; else elseBlock">VERIFIED</span>
+              <ng-template #elseBlock>
+                <button
+                  igxButton="raised"
+                  igxRipple
+                  (click)="verifyTransaction(cell.row.rowData)">
+                  VERIFY
+                </button>
+              </ng-template>
+            </ng-template>
+          </igx-column>
+        </igx-grid>
+      </ng-container>
+    </section>
+  </div>
+
+</article>

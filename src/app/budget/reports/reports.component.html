@@ -1,0 +1,59 @@
+<article class="reports">
+  <h2 class="reports__title">Budget Allocation</h2>
+
+  <figure class="reports__item">
+    <svg width="952px" height="336px" viewBox="0 0 952 336" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+      <desc>Created with Sketch.</desc>
+      <defs></defs>
+      <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="Reports" transform="translate(-241.000000, -157.000000)" fill="#0099FF">
+              <g id="Content" transform="translate(240.000000, 88.000000)">
+                  <g id="Bar-Chart" transform="translate(1.000000, 69.000000)">
+                      <rect id="Rectangle" x="0" y="208" width="72" height="128" rx="4"></rect>
+                      <rect id="Rectangle-Copy" x="80" y="168" width="72" height="168" rx="4"></rect>
+                      <rect id="Rectangle-Copy-2" x="160" y="143" width="72" height="193" rx="4"></rect>
+                      <rect id="Rectangle-Copy-3" x="240" y="192" width="72" height="144" rx="4"></rect>
+                      <rect id="Rectangle-Copy-4" x="320" y="252" width="72" height="84" rx="4"></rect>
+                      <rect id="Rectangle-Copy-5" x="400" y="280" width="72" height="56" rx="4"></rect>
+                      <rect id="Rectangle-Copy-6" x="480" y="168" width="72" height="168" rx="4"></rect>
+                      <rect id="Rectangle-Copy-7" x="560" y="143" width="72" height="193" rx="4"></rect>
+                      <rect id="Rectangle-Copy-8" x="640" y="81" width="72" height="255" rx="4"></rect>
+                      <rect id="Rectangle-Copy-9" x="720" y="113" width="72" height="223" rx="4"></rect>
+                      <rect id="Rectangle-Copy-10" x="800" y="36" width="72" height="300" rx="4"></rect>
+                      <rect id="Rectangle-Copy-11" x="880" y="0" width="72" height="336" rx="4"></rect>
+                  </g>
+              </g>
+          </g>
+      </g>
+    </svg>
+  </figure>
+
+  <figure class="reports__item reports__item--row">
+    <svg width="336px" height="336px" viewBox="0 0 336 336" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+      <desc>Created with Sketch.</desc>
+      <defs></defs>
+      <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="Reports" transform="translate(-240.000000, -576.000000)">
+              <g id="Content" transform="translate(240.000000, 88.000000)">
+                  <g id="Pie-Chart" transform="translate(0.000000, 488.000000)">
+                      <path d="M167.652312,168.421575 L23.7772622,80.8590938 C37.4858086,58.2896272 56.7195984,38.6225594 80.9251583,24.0778359 C111.436691,5.7439568 145.425516,-1.79367377 178.445603,0.356382119 L167.652312,168.421575 Z" id="Oval" fill="#F19140"></path>
+                      <path d="M167.99358,336 C260.773872,336 335.98716,260.783838 335.98716,168 C335.98716,75.216162 260.773872,0 167.99358,0 L167.99358,168 L29.8239253,72.4134569 C11.0187877,99.546923 0,132.486624 0,168 C0,260.783838 75.2132877,336 167.99358,336 Z" id="Oval" fill="#0099FF"></path>
+                  </g>
+              </g>
+          </g>
+      </g>
+    </svg>
+  </figure>
+
+  <figure class="reports__item reports__item--row">
+    <ng-container *ngIf="(budgetsMap$ | async) as budgets">
+      <igx-grid [data]="budgets" width="552px">
+        <igx-column field="name" header="Budget" dataType="string"></igx-column>
+        <igx-column field="amount" header="Amount" dataType="number"></igx-column>
+        <igx-column field="percentage" header="%" dataType="string"></igx-column>
+      </igx-grid>
+    </ng-container>
+  </figure>
+</article>

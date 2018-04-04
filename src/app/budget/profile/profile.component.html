@@ -1,0 +1,89 @@
+<form class="profile" [formGroup]="form">
+  <section class="profile__category">
+    <h3>Account Settings</h3>
+    <div class="igx-form-group">
+      <input
+        type="text"
+        formControlName="userName"
+        igxInput>
+      <label igxLabel>User Name</label>
+    </div>
+    <div class="igx-form-group">
+      <input
+        type="text"
+        formControlName="displayName"
+        igxInput>
+      <label igxLabel>Display Name</label>
+    </div>
+    <div class="igx-form-group">
+      <input
+        type="text"
+        formControlName="email"
+        igxInput>
+      <label igxLabel>Email</label>
+    </div>
+  </section>
+
+  <section class="profile__category">
+    <h3>Change Password</h3>
+    <div class="igx-form-group">
+      <input
+        type="password"
+        formControlName="oldPassword"
+        igxInput>
+      <label igxLabel>Old Password</label>
+    </div>
+    <div class="igx-form-group">
+      <input
+        type="password"
+        formControlName="newPassword"
+        igxInput>
+      <label igxLabel>New Password</label>
+    </div>
+    <div class="igx-form-group">
+      <input
+        type="password"
+        formControlName="repeatNewPassword"
+        igxInput>
+      <label igxLabel>Repeat New Password</label>
+    </div>
+  </section>
+
+  <section class="profile__category">
+    <h3>Notifications</h3>
+    <igx-checkbox formControlName="notifyIncome">On Income</igx-checkbox>
+    <igx-checkbox formControlName="notifyBudgetAllocation">On Budget Allocation</igx-checkbox>
+    <igx-checkbox formControlName="notifyExpense">On Expense</igx-checkbox>
+    <igx-checkbox formControlName="notifyTransfer">On Transfer</igx-checkbox>
+  </section>
+
+  <section class="profile__category">
+    <h3>Time Zone</h3>
+    <div class="igx-form-group">
+      <!-- TODO: Replace toggle directive -->
+      <!-- <igx-datePicker formControlName="timezone"></igx-datePicker> -->
+      <input
+        type="text"
+        formControlName="timezone"
+        igxInput>
+      <label igxLabel>Time Zone</label>
+    </div>
+  </section>
+
+  <div class="profile__actions">
+    <button
+      igxButton
+      igxRipple
+      (click)="cancelProfile()">
+      CANCEL
+    </button>
+
+    <button
+      igxButton="raised"
+      igxRipple
+      (click)="saveProfile()">
+      SAVE
+    </button>
+  </div>
+
+</form>

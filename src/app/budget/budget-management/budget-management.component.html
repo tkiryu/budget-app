@@ -1,0 +1,94 @@
+<article class="budget-management">
+
+  <div class="budget-management__budget-grid">
+    <ng-container *ngIf="budgetsMap as budgets">
+      <igx-grid [data]="budgets">
+        <igx-column width="176px" field="name" header="Budget" dataType="string"></igx-column>
+        <igx-column width="128px" field="yearlyAmount" header="Total Spendable" dataType="number"></igx-column>
+        <igx-column width="128px" field="monthlyAmount" header="Monthly Spendable" dataType="number" ></igx-column>
+        <igx-column width="328px" field="allocated" header="Allocated" dataType="number" cellClasses="allocated-cell">
+            <ng-template igxCell let-value let-cell="cell">
+              <igx-linear-bar
+                [textVisibility]="false"
+                [animate]="false"
+                [max]="cell.row.rowData['yearlyAmount']"
+                [value]="value">
+              </igx-linear-bar>
+          </ng-template>
+        </igx-column>
+        <igx-column width="104px" field="remaining" header="Remaining" dataType="number"></igx-column>
+        <igx-column width="160px" field="recurrence" header="Schedule" dataType="string"></igx-column>
+        <igx-column width="64px" cellClasses="delete-cell">
+          <ng-template igxCell let-cell="cell">
+            <button
+              igxButton="icon"
+              igxRipple
+              (click)="removeBudget(cell.row.rowData)">
+              <igx-icon name="clear"></igx-icon>
+            </button>
+          </ng-template>
+        </igx-column>
+      </igx-grid>
+    </ng-container>
+  </div>
+
+  <div class="budget-management__create-budget">
+    <button
+      igxButton="raised"
+      igxRipple
+      (click)="dialog.open()">
+      CREATE A NEW BUDGET
+    </button>
+
+    <igx-dialog #dialog
+      title="New Budget"
+      leftButtonLabel="CANCEL" (onLeftButtonSelect)="closeDialog()"
+      rightButtonLabel="CREATE" (onRightButtonSelect)="createBudget()">
+      <form [formGroup]="form">
+        <div class="igx-form-group">
+          <input
+            type="text"
+            formControlName="name"
+            igxInput>
+          <label>Name</label>
+        </div>
+        <div class="igx-form-group">
+          <!-- <input
+            type="text"
+            list="recurrences"
+            formControlName="recurrence"
+            igxInput>
+          <datalist id="recurrences">
+            <option
+              *ngFor="let recurrence of recurrences"
+              [value]="recurrence">
+              {{ recurrence }}
+            </option>
+          </datalist>
+          <label igxLabel>Recurrence</label> -->
+          <select formControlName="recurrence">
+            <option></option>
+            <option
+              *ngFor="let recurrence of recurrences"
+              [value]="recurrence">
+              {{ recurrence }}
+            </option>
+          </select>
+        </div>
+        <div class="igx-form-group" igxLayout>
+          <div class="igx-form-group" igxFlex>
+            <input
+              type="number"
+              formControlName="amount"
+              igxInput>
+            <label igxLabel>Amount</label>
+          </div>
+          <div class="igx-form-group" igxFlex>
+            <input igxInput name="unit" type="string" value="USD" required/>
+          </div>
+        </div>
+      </form>
+    </igx-dialog>
+  </div>
+
+</article>
